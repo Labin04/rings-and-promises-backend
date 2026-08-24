@@ -3,6 +3,7 @@ package com.ringsandpromises.backend.controller;
 import com.ringsandpromises.backend.dto.ContactRequest;
 import com.ringsandpromises.backend.entity.ContactInquiry;
 import com.ringsandpromises.backend.repository.ContactInquiryRepository;
+import com.ringsandpromises.backend.service.EmailService;
 import com.ringsandpromises.backend.service.PdfService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,12 @@ public class ContactController {
 
     private final ContactInquiryRepository repository;
     private final PdfService pdfService;
+    private final EmailService emailService;
 
-    public ContactController(ContactInquiryRepository repository, PdfService pdfService) {
+    public ContactController(ContactInquiryRepository repository, PdfService pdfService, EmailService emailService) {
         this.repository = repository;
         this.pdfService = pdfService;
+        this.emailService = emailService;
     }
 
     @PostMapping
@@ -37,9 +40,14 @@ public class ContactController {
         inquiry.setServices(request.getServices());
         inquiry.setVision(request.getVision());
 
-        repository.save(inquiry);
+        // Persist and commit the inquiry before producing or sending any documents.
+        ContactInquiry savedInquiry = repository.saveAndFlush(inquiry);
+        byte[] pdfBytes = pdfService.generateInquiryPdf(savedInquiry);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(inquiry);
+        emailService.sendCustomerInquiryEmail(savedInquiry, pdfBytes);
+        emailService.sendAdminInquiryEmail(savedInquiry, pdfBytes);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedInquiry);
     }
 
     @GetMapping("/{id}/pdf")
