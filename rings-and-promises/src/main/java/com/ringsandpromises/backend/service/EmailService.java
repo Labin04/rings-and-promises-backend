@@ -2,6 +2,7 @@ package com.ringsandpromises.backend.service;
 
 import com.ringsandpromises.backend.entity.ContactInquiry;
 import jakarta.mail.MessagingException;
+
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
