@@ -1,5 +1,9 @@
-package com.ringsandpromises.backend.contact;
+package com.ringsandpromises.backend.controller;
 
+import com.ringsandpromises.backend.dto.ContactRequest;
+import com.ringsandpromises.backend.entity.ContactInquiry;
+import com.ringsandpromises.backend.repository.ContactInquiryRepository;
+import com.ringsandpromises.backend.service.PdfService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

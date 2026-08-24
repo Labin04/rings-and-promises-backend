@@ -1,39 +1,42 @@
-package com.ringsandpromises.backend.contact;
+package com.ringsandpromises.backend.entity;
 
-import jakarta.validation.constraints.*;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class ContactRequest {
+@Entity
+@Table(name = "contact_inquiries")
+public class ContactInquiry {
 
-    @NotBlank(message = "Full name is required")
-    @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String fullName;
-
-    @NotBlank(message = "Email is required")
-    @Email(message = "Please provide a valid email address")
     private String email;
-
-    @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^[+]?[0-9\\s-]{7,15}$", message = "Please provide a valid phone number")
     private String phone;
-
-    @NotBlank(message = "Event type is required")
     private String eventType;
-
     private String eventDate;
-
     private String guestCount;
-
     private String venuePreference;
-
     private String budgetRange;
 
+    @ElementCollection
     private List<String> services;
 
-    @Size(max = 2000, message = "Vision text must be under 2000 characters")
+    @Column(length = 2000)
     private String vision;
 
+    private LocalDateTime submittedAt;
+
+    public ContactInquiry() {
+        this.submittedAt = LocalDateTime.now();
+    }
+
     // Getters and setters
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
@@ -64,4 +67,7 @@ public class ContactRequest {
 
     public String getVision() { return vision; }
     public void setVision(String vision) { this.vision = vision; }
+
+    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
 }
