@@ -1,4 +1,4 @@
-package com.ringsandpromises.backend.contact;
+package com.ringsandpromises.backend.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

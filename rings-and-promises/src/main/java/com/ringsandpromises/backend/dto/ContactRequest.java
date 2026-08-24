@@ -1,4 +1,4 @@
-package com.ringsandpromises.backend.contact;
+package com.ringsandpromises.backend.dto;
 
 import jakarta.validation.constraints.*;
 import java.util.List;

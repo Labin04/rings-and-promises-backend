@@ -1,5 +1,6 @@
-package com.ringsandpromises.backend.contact;
+package com.ringsandpromises.backend.service;
 
+import com.ringsandpromises.backend.entity.ContactInquiry;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.pdf.draw.LineSeparator;
