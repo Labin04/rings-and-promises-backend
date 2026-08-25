@@ -10,6 +10,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Async;
 
 /** Sends inquiry emails after an inquiry has been stored and its PDF has been generated. */
 @Service
@@ -30,6 +31,7 @@ public class EmailService {
         this.fromAddress = fromAddress;
     }
 
+    @Async
     public void sendCustomerInquiryEmail(ContactInquiry inquiry, byte[] pdfBytes) {
         sendEmail(
             inquiry.getEmail(),
@@ -43,8 +45,8 @@ public class EmailService {
         );
     }
 
-    public void sendAdminInquiryEmail(ContactInquiry inquiry, byte[] pdfBytes) {
-        sendEmail(
+    @Async
+    public void sendAdminInquiryEmail(ContactInquiry inquiry, byte[] pdfBytes) {        sendEmail(
             adminEmail,
             "New event inquiry from " + inquiry.getFullName(),
             "A new event inquiry has been received from " + inquiry.getFullName() + " ("
